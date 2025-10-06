@@ -17,3 +17,13 @@ void putarea(int color, int x, int y, int sx, int sy){ // paint block in one col
         }
     }
 }
+
+void clearscreen(int color){
+    volatile uint32_t *fb_ptr = framebuffer->address;
+
+    for(int i = 0; i < framebuffer->width; ++i){
+        for(int j = 0; j < framebuffer->height; ++j){
+            fb_ptr[i+j*framebuffer->width] = color;
+        }
+    }
+}

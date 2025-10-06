@@ -9,8 +9,6 @@
 #include "../devices/gl.h"
 #include "../programs/tetris.h"
 
-#define WHITE 0xffffff
-#define BLACK 0x000000
 
 __attribute__((used, section(".limine_requests")))
 static volatile LIMINE_BASE_REVISION(3);
@@ -83,11 +81,14 @@ void kmain(void) {
     
     pushstri("Timestamp: %i", SYSLOW_TIMESTAMP());
     pushstri("Timestamp: %i", SYSLOW_TIMESTAMP());
+    pushstri("Pitch: %i", framebuffer->pitch);
+    pushstri("Width: %i", framebuffer->width);
+    pushstri("Height: %i", framebuffer->height);
 
     pushstr("Tetris loading");
-    SYSLOW_DELAY(20000000000); // this is a deliberate pause to allow the presentees to visualize the terminal
+    SYSLOW_DELAY(1000000000); // this is a deliberate pause to allow the presentees to visualize the terminal
     pushstr("...");
-    SYSLOW_DELAY(30000000000); // this one is too, deliberate
+    SYSLOW_DELAY(1000000000); // this one is too, deliberate 30000000000
     SYSRUN_RUN(pTETRIS);
 
 
