@@ -1,0 +1,29 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "kernel/cc-runtime": true,
+        "kernel/limine-protocol": true,
+        "kernel/linker-scripts": true,
+        "kernel/get-deps": true,
+        "LICENSE": true,
+        "template-x86_64.iso": true,
+        "kernel/obj-x86_64": true,
+        "kernel/bin-x86_64": true,
+        ".vscode": true
+    },
+    "hide-files.files": [
+        "kernel/cc-runtime",
+        "kernel/limine-protocol",
+        "kernel/linker-scripts",
+        "kernel/get-deps",
+        "LICENSE",
+        "template-x86_64.iso",
+        "kernel/obj-x86_64",
+        "kernel/bin-x86_64",
+        ".vscode"
+    ]
+}
