@@ -8,7 +8,7 @@ void putchar(char chr, uint16_t x, uint16_t y, uint16_t sx, uint16_t sy){
         int buffer = 0b00000001;
         for(size_t j = 0; j < 8; ++j){
             if(((buffer << j) & font8x8[(int)chr][i])>0){
-                putarea(WHITE, (x+j)*sx, (y+i)*sy, sx, sy);
+                lGL_dputarea(WHITE, (x+j)*sx, (y+i)*sy, sx, sy);
             }
         }
     }

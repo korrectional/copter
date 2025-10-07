@@ -1,6 +1,9 @@
 #pragma once
 #include <limine.h>
 
+#define WIDTH 1024
+#define HEIGHT 768
+
 #define WHITE      0xffffff
 #define BLACK      0x000000
 #define RED        0xff0000
@@ -19,7 +22,16 @@
 #define NAVY       0x000080
 
 extern struct limine_framebuffer *framebuffer;
+extern uint32_t lGL_framebuffer[WIDTH*HEIGHT];
 
-void putpixel(int color, int x, int y);
-void putarea(int color, int x, int y, int sx, int sy);
-void clearscreen(int color);
+
+// directly onto framebuffer
+void lGL_dputpixel(int color, int x, int y);
+void lGL_dputarea(int color, int x, int y, int sx, int sy);
+void lGL_dclearscreen(int color);
+
+// onto gl framebuffer PLEASE DONT USE
+void lGL_putpixel(int color, int x, int y);
+void lGL_putarea(int color, int x, int y, int sx, int sy);
+void lGL_clearscreen(int color);
+void lGL_writeFramebuffer();
