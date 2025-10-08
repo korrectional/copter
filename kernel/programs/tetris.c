@@ -1,18 +1,30 @@
 #include "tetris.h"
-#include "../devices/gl.h"
 //#include "../utils/deput.h"
-#define DISPLAY_DELAY 10000//1000000000
+#define DISPLAY_DELAY 10000//10000//1000000000
 #define DISPLAY_DELAY_VISUAL 0
 
 bool tetrisGrid[20][10]; // y, x
-
+uint32_t currentBlock[8 /*4*2: y0,x0,y1,x1,... */];
+volatile char currentKey = 0;
 
 // ###### TETRIS FUNCTIONS
-static void spawnBlock(uint32_t type, uint32_t x, uint32_t y){
+static void spawnBlock(uint32_t type){
     switch (type)
     {
     case 0:
-        tetrisGrid[y][x] = 1;
+        tetrisGrid[0][5] = 1;
+        tetrisGrid[0][6] = 1; //  [][]
+        tetrisGrid[1][5] = 1; //  [][]
+        tetrisGrid[1][6] = 1;
+
+        currentBlock[0] = 0; //
+        currentBlock[1] = 5; //
+        currentBlock[2] = 0; //
+        currentBlock[3] = 6; 
+        currentBlock[4] = 1;
+        currentBlock[5] = 5;
+        currentBlock[6] = 1;
+        currentBlock[7] = 6;
         break;
     
     default:
@@ -20,31 +32,42 @@ static void spawnBlock(uint32_t type, uint32_t x, uint32_t y){
     }
 }
 
-static void swap(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2){
-    if(y1<0||y2<0){
-        return 0;
+static void swap(uint32_t y0, uint32_t x0, uint32_t y1, uint32_t x1){
+    // y/x are unsigned; no negative check
+    bool buffer = tetrisGrid[y0][x0]; 
+    tetrisGrid[y0][x0] = tetrisGrid[y1][x1];
+    tetrisGrid[y1][x1] = buffer;
+    if(buffer == 0){
+        lGL_dputarea(LIGHT_GRAY, (x1*30)+256, (y1*30)+100, 30, 30);
     }
-    bool buffer = tetrisGrid[y1][x1]; 
-    tetrisGrid[y1][x1] = tetrisGrid[y2][x2];
-    tetrisGrid[y2][x2] = buffer;
+    if(tetrisGrid[y0][x0] == 0){
+        lGL_dputarea(LIGHT_GRAY, (x0*30)+256, (y0*30)+100, 30, 30);
+    }
 }
 
-static void checkBottom(uint32_t x, uint32_t y){ // check if under this block is empty
+static bool checkBottom(uint32_t x, uint32_t y){ // check if under this block is occupied (false==empty)
+    if(y >= 19) return true; // treat bottom edge as occupied so pieces stop
     return tetrisGrid[y+1][x];
 }
 
-static bool checkBlock(uint32_t x, uint32_t y){ // check if block is empty
+static bool checkBlock(uint32_t x, uint32_t y){ // check if block is occupied
     return tetrisGrid[y][x];
 }
 
 static void turn(){
-    for(int y = 18; y >= 0; --y){ // we dont go down to block 19th (bottom)
-        for(int x = 10; x >= 0; --x){
-            if(tetrisGrid[y][x] == 1){// && tetrisGrid[y+1][x] == 0){
-                swap(x, y, x, y+1);
-                //pushstr("SWAP OCURRED");
-            }
-        }    
+    // move blocks down; iterate from bottom-most block to top to avoid overwriting
+    for(int b = 3; b >= 0; --b){
+        int idx = b*2; // index into currentBlock: y then x
+        uint32_t y = currentBlock[idx];
+        uint32_t x = currentBlock[idx+1];
+        // ensure within grid and there is a block and space below
+        if(y < 19 && tetrisGrid[y][x] && !tetrisGrid[y+1][x]){
+            swap(y, x, y+1, x);
+            currentBlock[idx] = y + 1;
+        }
+        else{
+            spawnBlock(0);
+        }
     }
 }
 
@@ -52,8 +75,8 @@ static void printGrid(){
     for(int y = 0; y < 20; ++y){
         for(int x = 0; x < 10; ++x){
             if(tetrisGrid[y][x] == 1){
-                lGL_dputarea(BLACK, (x*30)+100, (y*30)+100, 30, 30);
-                lGL_dputarea(BLUE, (x*30)+105, (y*30)+105, 20, 20);
+                lGL_dputarea(BLACK, (x*30)+256, (y*30)+100, 30, 30);
+                lGL_dputarea(BLUE, (x*30)+261, (y*30)+105, 20, 20);
             }
         }
     }
@@ -110,16 +133,35 @@ bool pTETRIS(){
     tetrisGrid[19][9] = 1;
 
     // print grid
+    spawnBlock(0);
     printGrid();
-
     while(1){
-        SYSLOW_DELAY(1000000000);
+        uint32_t timestamp = SYSLOW_TIMESTAMP();
         turn();
         pushstr("TURN");
-        lGL_dclearscreen(LIGHT_GRAY);
-        //SYSLOW_DELAY(1000000000);
+        //lGL_dclearscreen(LIGHT_GRAY);
+        deput_y_offset-=10;
+        pushstr("TURN");
         printGrid();
-
+        
+        currentKey = keyIn();
+        switch (currentKey)
+        {
+        case 'w':
+            
+            break;
+        case 'a':
+            
+            break;
+        case 's':
+            
+            break;
+        case 'd':
+            
+            break;
+        }
+        
+        SYSLOW_DELAY(1000000000 - (timestamp - SYSLOW_TIMESTAMP()));
     }
 
 

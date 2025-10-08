@@ -7,6 +7,7 @@
 #include "../utils/sysrun.h"
 #include "../utils/deput.h"
 #include "../devices/gl.h"
+#include "../devices/keyboard.h"
 #include "../programs/tetris.h"
 
 
@@ -78,6 +79,8 @@ void kmain(void) {
     
     // begin!!
     pushstr("Copter loaded");
+    initKeyboard();
+    pushstr("Keyboard initialized");
     
     pushstri("Timestamp: %i", SYSLOW_TIMESTAMP());
     pushstri("Timestamp: %i", SYSLOW_TIMESTAMP());
