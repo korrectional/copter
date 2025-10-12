@@ -25,5 +25,6 @@
         "kernel/obj-x86_64",
         "kernel/bin-x86_64",
         ".vscode"
-    ]
+    ],
+    "C_Cpp.default.compilerPath": "/bin/gcc"
 }

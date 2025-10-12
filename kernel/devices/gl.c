@@ -14,7 +14,7 @@ void lGL_dputarea(int color, int x, int y, int sx, int sy){ // paint block in on
 
     for(int i = 0; i < sx; ++i){
         for(int j = 0; j < sy; ++j){
-            if(x+i>WIDTH || y+j>HEIGHT) continue;
+            //if(x+i>WIDTH || y+j>HEIGHT) continue;
             fb_ptr[(x+i) + (y+j)*framebuffer->pitch / 4] = color; // paint XY + offset
         }
     }
