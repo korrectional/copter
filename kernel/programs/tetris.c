@@ -1,11 +1,9 @@
 #include "tetris.h"
 //#include "../utils/deput.h"
-#define DISPLAY_DELAY 10000//10000//1000000000
-#define DISPLAY_DELAY_VISUAL 0
 
-bool tetrisGrid[20][10]; // y, x
-uint32_t currentBlock[8 /*4*2: y0,x0,y1,x1,... */];
-uint32_t intent[4]; // {w, a, s, d} store current key press intents 
+static bool tetrisGrid[20][10]; // y, x
+static uint32_t currentBlock[8 /*4*2: y0,x0,y1,x1,... */];
+static uint32_t intent[4]; // {w, a, s, d} store current key press intents 
 volatile char currentKey = 0;
 
 

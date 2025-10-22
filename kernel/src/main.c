@@ -9,6 +9,8 @@
 #include "../devices/gl.h"
 #include "../devices/keyboard.h"
 #include "../programs/tetris.h"
+#include "../programs/shell.h"
+
 
 
 __attribute__((used, section(".limine_requests")))
@@ -78,25 +80,8 @@ void kmain(void) {
     framebuffer = framebuffer_request.response->framebuffers[0];
     
     // begin!!
-    pushstr("Copter loaded");
-    initKeyboard();
-    pushstr("Keyboard initialized");
-    
-    pushstri("Timestamp: %i", SYSLOW_TIMESTAMP());
-    pushstri("Timestamp: %i", SYSLOW_TIMESTAMP());
-    pushstri("Pitch: %i", framebuffer->pitch);
-    pushstri("Width: %i", framebuffer->width);
-    pushstri("Height: %i", framebuffer->height);
-
-    pushstr("Tetris loading");
-    SYSLOW_DELAY(1000000000); // this is a deliberate pause to allow the presentees to visualize the terminal
-    pushstr("...");
-    SYSLOW_DELAY(1000000000); // this one is too, deliberate 30000000000
-    SYSRUN_RUN(pTETRIS);
-
-
+    SYSRUN_RUN(pSHELL);
 
     
-    pushstr("Copter hanging");
     SYSLOW_HLT();
 }

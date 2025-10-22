@@ -19,6 +19,9 @@ void putchar(char chr, uint16_t x, uint16_t y, uint16_t sx, uint16_t sy){
 void putstr(const char* str, uint16_t x, uint16_t y, uint16_t sx, uint16_t sy){
     uint32_t length = strlen(str);
     for(size_t i = 0; i < length; ++i){
+        if(str[i] == 0){
+            break;
+        }
         putchar(str[i], x+i*(sx*4), y, sx, sy);
     }
 }
