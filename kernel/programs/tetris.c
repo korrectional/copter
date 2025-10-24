@@ -150,6 +150,7 @@ static void printGrid(){
 
 bool pTETRIS(){
 pTETRIS_start:
+    deput_y_offset = 0;
     pushstr("TETROMINO PROGRAM HAS INITIALIZED");
     if(DISPLAY_DELAY_VISUAL){
         pushstr("TETROMINO PROGRAM HAS INITIALIZED");

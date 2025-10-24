@@ -31,6 +31,9 @@
         "tetris.h": "c",
         "sysmem.h": "c",
         "shell.h": "c",
-        "deput.h": "c"
+        "deput.h": "c",
+        "stdint.h": "c",
+        "keyboard.h": "c",
+        "stddef.h": "c"
     }
 }
